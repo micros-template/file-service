@@ -1,0 +1,23 @@
+
+
+minio:
+  host: "minio"
+  port: 9000
+  credential:
+    user: "user_test"
+    password: "password_test"
+
+
+app:
+  name: "test_app_name"
+  grpc:
+    port: 50051
+
+server:
+  cors:
+    allow_origins: "*"
+    allow_methods: "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    allow_headers: "Content-Type, Authorization, X-Requested-With, X-CSRF-Token, Accept, Origin, Cache-Control, X-File-Name, X-File-Type, X-File-Size"
+    expose_headers: "Content-Length, Content-Range"
+    max_age: 86400
+    allow_credential: true
