@@ -7,3 +7,9 @@ Plese setup pre-commit before start to code
 ```bash
 make pre-commit-preparation
 ```
+
+## Setup env
+
+```bash
+go env -w GOPRIVATE="10.1.20.130/*"
+```
