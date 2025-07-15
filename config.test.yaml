@@ -1,6 +1,6 @@
 
 minio:
-  host: "test_minio"
+  host: "test-minio"
   port: 9000
   credential:
     user: "user_test"
