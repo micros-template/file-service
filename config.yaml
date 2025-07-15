@@ -15,7 +15,8 @@ minio:
 
 app:
   name: "dropboks"
-  port: 50051
+  grpc:
+    port: 50052
 
 server:
   cors:
