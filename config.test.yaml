@@ -1,12 +1,11 @@
 
 
 minio:
-  host: "minio"
+  host: "test_minio"
   port: 9000
   credential:
     user: "user_test"
     password: "password_test"
-
 
 app:
   name: "test_app_name"
