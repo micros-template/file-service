@@ -1,5 +1,4 @@
 
-
 minio:
   host: "test_minio"
   port: 9000
