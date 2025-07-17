@@ -13,14 +13,14 @@ type UserGrpcHandler struct {
 	fpb.UnimplementedFileServiceServer
 }
 
-func newUserGrpcHandler(userService service.UserService) *UserGrpcHandler {
+func NewUserGrpcHandler(userService service.UserService) *UserGrpcHandler {
 	return &UserGrpcHandler{
 		userService: userService,
 	}
 }
 
 func RegisterUserService(grpc *grpc.Server, userService service.UserService) {
-	grpcHandler := newUserGrpcHandler(userService)
+	grpcHandler := NewUserGrpcHandler(userService)
 	fpb.RegisterFileServiceServer(grpc, grpcHandler)
 }
 

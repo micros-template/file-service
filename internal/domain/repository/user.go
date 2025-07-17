@@ -17,20 +17,20 @@ type (
 		RemoveProfileImage(ctx context.Context, bucketName, objectPath string) error
 	}
 	userRepository struct {
-		miniio *storage.MinioStorage
+		minio  storage.MinioStorage
 		logger zerolog.Logger
 	}
 )
 
-func NewUserRepository(miniio *storage.MinioStorage, logger zerolog.Logger) UserRepository {
+func NewUserRepository(minio storage.MinioStorage, logger zerolog.Logger) UserRepository {
 	return &userRepository{
-		miniio: miniio,
+		minio:  minio,
 		logger: logger,
 	}
 }
 
 func (u *userRepository) SaveProfileImage(ctx context.Context, bucketName string, objectPath string, reader io.Reader, objectSize int64) error {
-	err := u.miniio.Set(ctx, bucketName, objectPath, reader, objectSize)
+	err := u.minio.Set(ctx, bucketName, objectPath, reader, objectSize)
 	if err != nil {
 		u.logger.Error().Err(err).Str("imagePath", objectPath).Msg("failed to save profile image")
 		return status.Error(codes.Internal, dto.Err_INTERNAL_SAVE_PROFILE_IMAGE.Error())
@@ -38,7 +38,7 @@ func (u *userRepository) SaveProfileImage(ctx context.Context, bucketName string
 	return nil
 }
 func (u *userRepository) RemoveProfileImage(ctx context.Context, bucketName string, objectPath string) error {
-	err := u.miniio.Delete(ctx, bucketName, objectPath)
+	err := u.minio.Delete(ctx, bucketName, objectPath)
 	if err != nil {
 		u.logger.Error().Err(err).Str("imagePath", objectPath).Msg("failed to remove profile image")
 		return status.Error(codes.Internal, dto.Err_INTERNAL_REMOVE_PROFILE_IMAGE.Error())

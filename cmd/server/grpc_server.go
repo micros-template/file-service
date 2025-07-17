@@ -26,9 +26,9 @@ func (s *GRPCServer) Run(ctx context.Context) {
 		grpcServer *grpc.Server,
 		logger zerolog.Logger,
 		svc service.UserService,
-		miniio *storage.MinioStorage,
+		minio storage.MinioStorage,
 	) {
-		err := miniio.InitBucket(ctx, constant.APP_BUCKET)
+		err := minio.InitBucket(ctx, constant.APP_BUCKET)
 		if err != nil {
 			log.Fatalf("Failed to init bucket: %v", err)
 		}
