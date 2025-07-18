@@ -32,7 +32,7 @@ pre-commit:
 
 
 # 	build docker image first to be tested later
-	@echo "build user-service:test image"
+	@echo "build file-service:test image"
 	@chmod +x ./bin/build-precommit-test.sh
 	@./bin/build-precommit-test.sh
 
