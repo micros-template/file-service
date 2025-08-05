@@ -3,7 +3,7 @@ module 10.1.20.130/dropping/file-service
 go 1.24.2
 
 require (
-	10.1.20.130/dropping/sharedlib v0.0.0-20250805042116-4188cd9056be
+	10.1.20.130/dropping/sharedlib v0.0.0-20250805050028-236deaaadc24
 	github.com/dropboks/proto-file v0.0.0-20250609044313-a7f78b2c48bf
 	github.com/google/uuid v1.6.0
 	github.com/minio/minio-go/v7 v7.0.95
