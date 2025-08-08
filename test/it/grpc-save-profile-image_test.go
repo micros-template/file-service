@@ -21,6 +21,7 @@ type GRPCRemoveProfileImageHandlerSuite struct {
 	network              *testcontainers.DockerNetwork
 	gatewayContainer     *_helper.GatewayContainer
 	minioContainer       *_helper.MinioContainer
+	natsContainer        *_helper.NatsContainer
 	fileServiceContainer *_helper.FileServiceContainer
 }
 
@@ -43,6 +44,13 @@ func (r *GRPCRemoveProfileImageHandlerSuite) SetupSuite() {
 	}
 	r.minioContainer = mContainer
 
+	// spawn nats
+	nContainer, err := _helper.StartNatsContainer(r.ctx, r.network.Name, viper.GetString("container.nats_version"))
+	if err != nil {
+		log.Fatalf("failed starting minio container: %r", err)
+	}
+	r.natsContainer = nContainer
+
 	fContainer, err := _helper.StartFileServiceContainer(r.ctx, r.network.Name, viper.GetString("container.file_service_version"))
 	if err != nil {
 		log.Println("make sure the image is exist")
@@ -61,6 +69,10 @@ func (r *GRPCRemoveProfileImageHandlerSuite) TearDownSuite() {
 
 	if err := r.minioContainer.Terminate(r.ctx); err != nil {
 		log.Fatalf("error terminating minio container: %r", err)
+	}
+
+	if err := r.natsContainer.Terminate(r.ctx); err != nil {
+		log.Fatalf("error terminating nats container: %s", err)
 	}
 
 	if err := r.fileServiceContainer.Terminate(r.ctx); err != nil {

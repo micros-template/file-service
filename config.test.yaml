@@ -20,6 +20,7 @@ server:
     allow_credential: true
 
 container:
+  nats_version: "2.11.6"
   gateway_version: "1.28.0-alpine-slim"
   file_service_version: "test"
   minio_version: "RELEASE.2025-05-24T17-08-30Z-cpuv1"
@@ -27,3 +28,23 @@ container:
 script:
   nginx: "../mocks/gateway/nginx.conf"
   grpc_error: "../mocks/gateway/errors.grpc_conf"
+  nats_server: "../mocks/nats/nats-server.conf"
+
+nats:
+  protocol: "nats"
+  address: "test_nats"
+  port: "4221"
+  credential:
+    user: "user_test"
+    password: "password_test"
+  connection_name: "user_service_conn"
+  timeout: 10
+
+jetstream:
+  log:
+    stream:
+      name: "log_stream"
+      description: "this is log stream"
+    subject:
+      global: "log.>"
+      prefix: "log"

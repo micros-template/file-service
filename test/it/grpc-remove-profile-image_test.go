@@ -21,6 +21,7 @@ type GRPCSaveProfileImageHandlerSuite struct {
 	network              *testcontainers.DockerNetwork
 	gatewayContainer     *_helper.GatewayContainer
 	minioContainer       *_helper.MinioContainer
+	natsContainer        *_helper.NatsContainer
 	fileServiceContainer *_helper.FileServiceContainer
 }
 
@@ -42,6 +43,12 @@ func (s *GRPCSaveProfileImageHandlerSuite) SetupSuite() {
 		log.Fatalf("failed starting minio container: %s", err)
 	}
 	s.minioContainer = mContainer
+	// spawn nats
+	nContainer, err := _helper.StartNatsContainer(s.ctx, s.network.Name, viper.GetString("container.nats_version"))
+	if err != nil {
+		log.Fatalf("failed starting minio container: %s", err)
+	}
+	s.natsContainer = nContainer
 
 	fContainer, err := _helper.StartFileServiceContainer(s.ctx, s.network.Name, viper.GetString("container.file_service_version"))
 	if err != nil {
@@ -63,6 +70,9 @@ func (s *GRPCSaveProfileImageHandlerSuite) TearDownSuite() {
 		log.Fatalf("error terminating minio container: %s", err)
 	}
 
+	if err := s.natsContainer.Terminate(s.ctx); err != nil {
+		log.Fatalf("error terminating nats container: %s", err)
+	}
 	if err := s.fileServiceContainer.Terminate(s.ctx); err != nil {
 		log.Fatalf("error terminating file service container: %s", err)
 	}

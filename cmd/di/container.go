@@ -1,7 +1,9 @@
 package di
 
 import (
+	logemitter "10.1.20.130/dropping/file-service/config/log_emitter"
 	"10.1.20.130/dropping/file-service/config/logger"
+	messagequeue "10.1.20.130/dropping/file-service/config/message-queue"
 	"10.1.20.130/dropping/file-service/config/router"
 	minioCon "10.1.20.130/dropping/file-service/config/storage"
 	"10.1.20.130/dropping/file-service/internal/domain/repository"
@@ -16,6 +18,12 @@ func BuildContainer() *dig.Container {
 	if err := container.Provide(logger.New); err != nil {
 		panic("Failed to provide logger: " + err.Error())
 	}
+	if err := container.Provide(messagequeue.New); err != nil {
+		panic("Failed to provide nats connection: " + err.Error())
+	}
+	if err := container.Provide(messagequeue.NewJetstream); err != nil {
+		panic("Failed to provide jetstream: " + err.Error())
+	}
 	if err := container.Provide(minioCon.NewMinioConnection); err != nil {
 		panic("Failed to provide minio Connection: " + err.Error())
 	}
@@ -27,6 +35,9 @@ func BuildContainer() *dig.Container {
 	}
 	if err := container.Provide(service.NewUserService); err != nil {
 		panic("Failed to provide user repository: " + err.Error())
+	}
+	if err := container.Provide(logemitter.NewInfraLogEmitter); err != nil {
+		panic("Failed to provide log emitter: " + err.Error())
 	}
 	if err := container.Provide(router.NewGRPC); err != nil {
 		panic("Failed to provide gRPC Server: " + err.Error())
