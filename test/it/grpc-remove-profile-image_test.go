@@ -91,7 +91,11 @@ func (s *GRPCSaveProfileImageHandlerSuite) TestUserHandler_SaveProfileImageHandl
 
 	conn, err := helper.ConnectGRPC("localhost:50051")
 	s.Require().NoError(err, "Failed to connect to gRPC server")
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("failed to close gRPC connection: %v", err)
+		}
+	}()
 
 	fileServiceClient := fpb.NewFileServiceClient(conn)
 	imageName, err := fileServiceClient.SaveProfileImage(s.ctx, &fpb.Image{Image: []byte{}, Ext: "jpg"})

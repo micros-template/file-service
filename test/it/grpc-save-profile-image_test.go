@@ -92,7 +92,11 @@ func TestGRPCRemoveProfileImageHandlerSuite(t *testing.T) {
 func (r *GRPCRemoveProfileImageHandlerSuite) TestUserHandler_RemoveProfileImageHandler_Success() {
 	conn, err := helper.ConnectGRPC("localhost:50051")
 	r.Require().NoError(err, "Failed to connect to gRPC server")
-	defer conn.Close()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("failed to close gRPC connection: %v", err)
+		}
+	}()
 
 	fileServiceClient := fpb.NewFileServiceClient(conn)
 	imageName, err := fileServiceClient.SaveProfileImage(r.ctx, &fpb.Image{Image: []byte{}, Ext: "jpg"})

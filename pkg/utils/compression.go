@@ -57,6 +57,8 @@ func DecompressData(compressed []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer gz.Close()
+	if err := gz.Close(); err != nil {
+		return nil, err
+	}
 	return io.ReadAll(gz)
 }
