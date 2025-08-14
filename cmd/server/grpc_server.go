@@ -33,26 +33,32 @@ func (s *GRPCServer) Run(ctx context.Context) {
 	) {
 		err := minio.InitBucket(ctx, constant.APP_BUCKET)
 		if err != nil {
-			if err := logEmitter.EmitLog("ERR", fmt.Sprintf("Failed to init bucket: %v", err)); err != nil {
-				logger.Error().Err(err).Msg("failed to emit log")
-			}
+			go func() {
+				if err := logEmitter.EmitLog("ERR", fmt.Sprintf("Failed to init bucket: %v", err)); err != nil {
+					logger.Error().Err(err).Msg("failed to emit log")
+				}
+			}()
 			log.Fatalf("Failed to init bucket: %v", err)
 		}
 
 		listen, err := net.Listen("tcp", s.Address)
 		if err != nil {
-			if err := logEmitter.EmitLog("ERR", fmt.Sprintf("failed to listen:%v", err)); err != nil {
-				logger.Error().Err(err).Msg("failed to emit log")
-			}
+			go func() {
+				if err := logEmitter.EmitLog("ERR", fmt.Sprintf("failed to listen:%v", err)); err != nil {
+					logger.Error().Err(err).Msg("failed to emit log")
+				}
+			}()
 			logger.Fatal().Msgf("failed to listen:%v", err)
 		}
 		handler.RegisterUserService(grpcServer, svc)
 
 		go func() {
 			if serveErr := grpcServer.Serve(listen); serveErr != nil {
-				if err := logEmitter.EmitLog("ERR", fmt.Sprintf("gRPC server error: %v", serveErr)); err != nil {
-					logger.Error().Err(err).Msg("failed to emit log")
-				}
+				go func() {
+					if err := logEmitter.EmitLog("ERR", fmt.Sprintf("gRPC server error: %v", serveErr)); err != nil {
+						logger.Error().Err(err).Msg("failed to emit log")
+					}
+				}()
 				logger.Fatal().Msgf("gRPC server error: %v", serveErr)
 			}
 		}()
@@ -61,9 +67,11 @@ func (s *GRPCServer) Run(ctx context.Context) {
 				conn, err := net.DialTimeout("tcp", s.Address, 100*time.Millisecond)
 				if err == nil {
 					if err := conn.Close(); err != nil {
-						if err := logEmitter.EmitLog("ERR", "establish check connection failed to close"); err != nil {
-							logger.Error().Err(err).Msg("failed to emit log")
-						}
+						go func() {
+							if err := logEmitter.EmitLog("ERR", "establish check connection failed to close"); err != nil {
+								logger.Error().Err(err).Msg("failed to emit log")
+							}
+						}()
 						logger.Fatal().Err(err).Msg("establish check connection failed to close")
 					}
 					s.ServerReady <- true
@@ -72,21 +80,26 @@ func (s *GRPCServer) Run(ctx context.Context) {
 				time.Sleep(100 * time.Millisecond)
 			}
 		}
-		if err := logEmitter.EmitLog("INFO", fmt.Sprintf("gRPC server running in port %s", s.Address)); err != nil {
-			logger.Error().Err(err).Msg("failed to emit log")
-		}
+		go func() {
+			if err := logEmitter.EmitLog("INFO", fmt.Sprintf("gRPC server running in port %s", s.Address)); err != nil {
+				logger.Error().Err(err).Msg("failed to emit log")
+			}
+		}()
 		logger.Info().Msg("gRPC server running in port " + s.Address)
 
 		<-ctx.Done()
-
-		if err := logEmitter.EmitLog("INFO", "Shutting down gRPC server..."); err != nil {
-			logger.Error().Err(err).Msg("failed to emit log")
-		}
+		go func() {
+			if err := logEmitter.EmitLog("INFO", "Shutting down gRPC server..."); err != nil {
+				logger.Error().Err(err).Msg("failed to emit log")
+			}
+		}()
 		logger.Info().Msg("Shutting down gRPC server...")
 		grpcServer.GracefulStop()
-		if err := logEmitter.EmitLog("INFO", "gRPC server stopped gracefully."); err != nil {
-			logger.Error().Err(err).Msg("failed to emit log")
-		}
+		go func() {
+			if err := logEmitter.EmitLog("INFO", "gRPC server stopped gracefully."); err != nil {
+				logger.Error().Err(err).Msg("failed to emit log")
+			}
+		}()
 		logger.Info().Msg("gRPC server stopped gracefully.")
 	})
 	if err != nil {
