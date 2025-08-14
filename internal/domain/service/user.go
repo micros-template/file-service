@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"10.1.20.130/dropping/file-service/internal/domain/repository"
+	"10.1.20.130/dropping/file-service/internal/infrastructure/logger"
 	"10.1.20.130/dropping/file-service/pkg/constant"
 	"10.1.20.130/dropping/file-service/pkg/utils"
 	"github.com/google/uuid"
@@ -19,13 +20,15 @@ type (
 	}
 	userService struct {
 		userRepository repository.UserRepository
+		logEmitter     logger.LoggerInfra
 		logger         zerolog.Logger
 	}
 )
 
-func NewUserService(userRepository repository.UserRepository, logger zerolog.Logger) UserService {
+func NewUserService(userRepository repository.UserRepository, logEmitter logger.LoggerInfra, logger zerolog.Logger) UserService {
 	return &userService{
 		userRepository: userRepository,
+		logEmitter:     logEmitter,
 		logger:         logger,
 	}
 }
@@ -35,7 +38,9 @@ func (u *userService) SaveProfileImage(context context.Context, imageBytes []byt
 	imagePath := fmt.Sprintf("%s/%s", constant.PROFILE_IMAGE_FOLDER, imageName)
 	compressedBytes, err := utils.CompressImage(imageBytes, imageExt)
 	if err != nil {
-		u.logger.Warn().Msg("failed to compress the file, use default instead")
+		if err := u.logEmitter.EmitLog("ERR", "failed to compress the file, use default instead"); err != nil {
+			u.logger.Error().Err(err).Msg("failed to emit log")
+		}
 		err = u.userRepository.SaveProfileImage(context, constant.APP_BUCKET, imagePath, bytes.NewReader(imageBytes), int64(len(imageBytes)))
 	} else {
 		err = u.userRepository.SaveProfileImage(context, constant.APP_BUCKET, imagePath, bytes.NewReader(compressedBytes), int64(len(compressedBytes)))

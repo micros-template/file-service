@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"10.1.20.130/dropping/file-service/internal/domain/service"
-	"github.com/dropboks/proto-file/pkg/fpb"
+	"10.1.20.130/dropping/proto-file/pkg/fpb"
 	"google.golang.org/grpc"
 )
 

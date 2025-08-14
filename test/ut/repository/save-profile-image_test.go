@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
 	"10.1.20.130/dropping/file-service/internal/domain/repository"
 	"10.1.20.130/dropping/file-service/test/mocks"
@@ -17,19 +18,25 @@ type SaveProfileImageRepositorySuite struct {
 	suite.Suite
 	userRepository repository.UserRepository
 	minioStorage   *mocks.MinioStorageMock
+	logEmitter     *mocks.LoggerInfraMock
 }
 
 func (s *SaveProfileImageRepositorySuite) SetupSuite() {
 
 	mockMinioStorage := new(mocks.MinioStorageMock)
+	mockLogEmitter := new(mocks.LoggerInfraMock)
 	logger := zerolog.Nop()
 	s.minioStorage = mockMinioStorage
-	s.userRepository = repository.NewUserRepository(s.minioStorage, logger)
+	s.logEmitter = mockLogEmitter
+	s.userRepository = repository.NewUserRepository(s.minioStorage, mockLogEmitter, logger)
 }
 
 func (s *SaveProfileImageRepositorySuite) SetupTest() {
 	s.minioStorage.ExpectedCalls = nil
+	s.logEmitter.ExpectedCalls = nil
+
 	s.minioStorage.Calls = nil
+	s.logEmitter.Calls = nil
 }
 
 func TestSaveProfileImageSuite(t *testing.T) {
@@ -59,8 +66,12 @@ func (s *SaveProfileImageRepositorySuite) TestUserRepository_SaveProfileImage_Er
 	reader := bytes.NewReader(imageContent)
 
 	s.minioStorage.On("Set", ctx, bucketName, objectPath, mock.Anything, objectSize).Return(errors.New("failed to insert"))
+	s.logEmitter.On("EmitLog", mock.Anything, mock.Anything).Return(nil).Once()
 
 	err := s.userRepository.SaveProfileImage(ctx, bucketName, objectPath, reader, objectSize)
 	s.Error(err)
 	s.minioStorage.AssertCalled(s.T(), "Set", ctx, bucketName, objectPath, mock.Anything, objectSize)
+
+	time.Sleep(time.Second)
+	s.logEmitter.AssertExpectations(s.T())
 }

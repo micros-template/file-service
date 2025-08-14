@@ -3,9 +3,9 @@ module 10.1.20.130/dropping/file-service
 go 1.24.2
 
 require (
-	10.1.20.130/dropping/log-management v0.0.0-20250807081938-0bbf3995bf59
+	10.1.20.130/dropping/log-management v0.0.0-20250808075433-1d4dd15b3fc7
+	10.1.20.130/dropping/proto-file v0.0.0-20250714044208-bb76fb12882b
 	10.1.20.130/dropping/sharedlib v0.0.0-20250805050028-236deaaadc24
-	github.com/dropboks/proto-file v0.0.0-20250609044313-a7f78b2c48bf
 	github.com/google/uuid v1.6.0
 	github.com/minio/minio-go/v7 v7.0.95
 	github.com/nats-io/nats.go v1.44.0
@@ -17,8 +17,6 @@ require (
 	go.uber.org/dig v1.19.0
 	google.golang.org/grpc v1.74.2
 )
-
-replace github.com/dropboks/proto-file => 10.1.20.130/dropping/proto-file v0.0.0-20250714044208-bb76fb12882b
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
@@ -52,7 +50,7 @@ require (
 	github.com/magiconair/properties v1.8.10 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/minio/crc64nvme v1.1.0 // indirect
+	github.com/minio/crc64nvme v1.1.1 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
 	github.com/moby/docker-image-spec v1.3.1 // indirect
 	github.com/moby/go-archive v0.1.0 // indirect
@@ -90,11 +88,11 @@ require (
 	go.opentelemetry.io/otel v1.37.0 // indirect
 	go.opentelemetry.io/otel/metric v1.37.0 // indirect
 	go.opentelemetry.io/otel/trace v1.37.0 // indirect
-	golang.org/x/crypto v0.40.0 // indirect
-	golang.org/x/net v0.42.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
-	golang.org/x/text v0.27.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250804133106-a7a43d27e69b // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	golang.org/x/crypto v0.41.0 // indirect
+	golang.org/x/net v0.43.0 // indirect
+	golang.org/x/sys v0.35.0 // indirect
+	golang.org/x/text v0.28.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250811230008-5f3141c8851a // indirect
+	google.golang.org/protobuf v1.36.7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

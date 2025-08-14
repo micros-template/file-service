@@ -8,11 +8,12 @@ import (
 	"10.1.20.130/dropping/file-service/pkg/constant"
 	"10.1.20.130/dropping/log-management/pkg"
 	ld "10.1.20.130/dropping/log-management/pkg/dto"
+	"github.com/rs/zerolog"
 
 	"google.golang.org/grpc"
 )
 
-func loggingUnaryInterceptor(logEmitter pkg.LogEmitter) grpc.UnaryServerInterceptor {
+func loggingUnaryInterceptor(logEmitter pkg.LogEmitter, logger zerolog.Logger) grpc.UnaryServerInterceptor {
 	return func(
 		ctx context.Context,
 		req interface{},
@@ -31,12 +32,14 @@ func loggingUnaryInterceptor(logEmitter pkg.LogEmitter) grpc.UnaryServerIntercep
 				"level":   "error",
 			}
 			logDataBytes, _ := json.Marshal(logData)
-			logEmitter.EmitLog(ctx, ld.LogMessage{
+			if err := logEmitter.EmitLog(ctx, ld.LogMessage{
 				Type:     "ERR",
 				Service:  "file_service",
 				Msg:      string(logDataBytes),
 				Protocol: "GRPC",
-			})
+			}); err != nil {
+				logger.Error().Err(err).Msg("failed to emit log")
+			}
 		} else {
 			logData := map[string]interface{}{
 				"type":    "access",
@@ -46,21 +49,23 @@ func loggingUnaryInterceptor(logEmitter pkg.LogEmitter) grpc.UnaryServerIntercep
 				"level":   "info",
 			}
 			logDataBytes, _ := json.Marshal(logData)
-			logEmitter.EmitLog(ctx, ld.LogMessage{
+			if err := logEmitter.EmitLog(ctx, ld.LogMessage{
 				Type:     "INFO",
 				Service:  "file_service",
 				Msg:      string(logDataBytes),
 				Protocol: "GRPC",
-			})
+			}); err != nil {
+				logger.Error().Err(err).Msg("failed to emit log")
+			}
 		}
 		return resp, err
 	}
 }
 
-func NewGRPC(logEmitter pkg.LogEmitter) *grpc.Server {
+func NewGRPC(logEmitter pkg.LogEmitter, logger zerolog.Logger) *grpc.Server {
 	maxMsgSize := constant.MAX_IMAGE_SIZE_BYTES
 	grpcServer := grpc.NewServer(
-		grpc.UnaryInterceptor(loggingUnaryInterceptor(logEmitter)),
+		grpc.UnaryInterceptor(loggingUnaryInterceptor(logEmitter, logger)),
 		grpc.MaxRecvMsgSize(maxMsgSize),
 		grpc.MaxSendMsgSize(maxMsgSize),
 	)

@@ -7,7 +7,7 @@ import (
 
 	"10.1.20.130/dropping/file-service/internal/domain/handler"
 	"10.1.20.130/dropping/file-service/test/mocks"
-	"github.com/dropboks/proto-file/pkg/fpb"
+	"10.1.20.130/dropping/proto-file/pkg/fpb"
 	"github.com/stretchr/testify/suite"
 	"google.golang.org/grpc"
 )

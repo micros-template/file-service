@@ -2,9 +2,11 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"10.1.20.130/dropping/file-service/internal/domain/dto"
+	"10.1.20.130/dropping/file-service/internal/infrastructure/logger"
 	"10.1.20.130/dropping/file-service/internal/infrastructure/storage"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc/codes"
@@ -17,22 +19,26 @@ type (
 		RemoveProfileImage(ctx context.Context, bucketName, objectPath string) error
 	}
 	userRepository struct {
-		minio  storage.MinioStorage
-		logger zerolog.Logger
+		minio      storage.MinioStorage
+		logger     zerolog.Logger
+		logEmitter logger.LoggerInfra
 	}
 )
 
-func NewUserRepository(minio storage.MinioStorage, logger zerolog.Logger) UserRepository {
+func NewUserRepository(minio storage.MinioStorage, logEmitter logger.LoggerInfra, logger zerolog.Logger) UserRepository {
 	return &userRepository{
-		minio:  minio,
-		logger: logger,
+		minio:      minio,
+		logEmitter: logEmitter,
+		logger:     logger,
 	}
 }
 
 func (u *userRepository) SaveProfileImage(ctx context.Context, bucketName string, objectPath string, reader io.Reader, objectSize int64) error {
 	err := u.minio.Set(ctx, bucketName, objectPath, reader, objectSize)
 	if err != nil {
-		u.logger.Error().Err(err).Str("imagePath", objectPath).Msg("failed to save profile image")
+		if err := u.logEmitter.EmitLog("ERR", fmt.Sprintf("failed to save profile image. image path: %s. error:%s", objectPath, err.Error())); err != nil {
+			u.logger.Error().Err(err).Msg("failed to emit log")
+		}
 		return status.Error(codes.Internal, dto.Err_INTERNAL_SAVE_PROFILE_IMAGE.Error())
 	}
 	return nil
@@ -40,7 +46,9 @@ func (u *userRepository) SaveProfileImage(ctx context.Context, bucketName string
 func (u *userRepository) RemoveProfileImage(ctx context.Context, bucketName string, objectPath string) error {
 	err := u.minio.Delete(ctx, bucketName, objectPath)
 	if err != nil {
-		u.logger.Error().Err(err).Str("imagePath", objectPath).Msg("failed to remove profile image")
+		if err := u.logEmitter.EmitLog("ERR", fmt.Sprintf("failed to save remove image. image path: %s. error:%s", objectPath, err.Error())); err != nil {
+			u.logger.Error().Err(err).Msg("failed to emit log")
+		}
 		return status.Error(codes.Internal, dto.Err_INTERNAL_REMOVE_PROFILE_IMAGE.Error())
 	}
 	return nil

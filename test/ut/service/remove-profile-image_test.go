@@ -22,9 +22,11 @@ type RemoveProfileImageServiceSuite struct {
 func (r *RemoveProfileImageServiceSuite) SetupSuite() {
 
 	mockUserRepo := new(mocks.UserRepositoryMock)
+	mockLogEmitter := new(mocks.LoggerInfraMock)
+
 	logger := zerolog.Nop()
 	r.userRepository = mockUserRepo
-	r.userService = service.NewUserService(r.userRepository, logger)
+	r.userService = service.NewUserService(r.userRepository, mockLogEmitter, logger)
 }
 
 func (r *RemoveProfileImageServiceSuite) SetupTest() {
