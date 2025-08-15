@@ -5,11 +5,11 @@ import (
 	"context"
 	"fmt"
 
-	"10.1.20.130/dropping/file-service/internal/domain/repository"
-	"10.1.20.130/dropping/file-service/internal/infrastructure/logger"
-	"10.1.20.130/dropping/file-service/pkg/constant"
-	"10.1.20.130/dropping/file-service/pkg/utils"
 	"github.com/google/uuid"
+	"github.com/micros-template/file-service/internal/domain/repository"
+	"github.com/micros-template/file-service/internal/infrastructure/logger"
+	"github.com/micros-template/file-service/pkg/constant"
+	"github.com/micros-template/file-service/pkg/utils"
 	"github.com/rs/zerolog"
 )
 

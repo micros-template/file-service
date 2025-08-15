@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"10.1.20.130/dropping/file-service/pkg/constant"
-	"10.1.20.130/dropping/file-service/pkg/utils"
+	"github.com/micros-template/file-service/pkg/constant"
+	"github.com/micros-template/file-service/pkg/utils"
 	"github.com/minio/minio-go/v7"
 )
 

@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
-	"10.1.20.130/dropping/file-service/cmd/di"
-	"10.1.20.130/dropping/file-service/config/env"
+	"github.com/micros-template/file-service/cmd/di"
+	"github.com/micros-template/file-service/config/env"
 	"go.uber.org/dig"
 )
 

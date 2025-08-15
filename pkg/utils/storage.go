@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 
-	"10.1.20.130/dropping/file-service/internal/domain/dto"
+	"github.com/micros-template/file-service/internal/domain/dto"
 )
 
 func IsBucketPublic(policyStr string) (bool, error) {

@@ -1,15 +1,15 @@
 package di
 
 import (
-	logemitter "10.1.20.130/dropping/file-service/config/log_emitter"
-	logger "10.1.20.130/dropping/file-service/config/logger"
-	messagequeue "10.1.20.130/dropping/file-service/config/message-queue"
-	"10.1.20.130/dropping/file-service/config/router"
-	minioCon "10.1.20.130/dropping/file-service/config/storage"
-	"10.1.20.130/dropping/file-service/internal/domain/repository"
-	"10.1.20.130/dropping/file-service/internal/domain/service"
-	_logger "10.1.20.130/dropping/file-service/internal/infrastructure/logger"
-	minioStorage "10.1.20.130/dropping/file-service/internal/infrastructure/storage"
+	logemitter "github.com/micros-template/file-service/config/log_emitter"
+	logger "github.com/micros-template/file-service/config/logger"
+	messagequeue "github.com/micros-template/file-service/config/message-queue"
+	"github.com/micros-template/file-service/config/router"
+	minioCon "github.com/micros-template/file-service/config/storage"
+	"github.com/micros-template/file-service/internal/domain/repository"
+	"github.com/micros-template/file-service/internal/domain/service"
+	_logger "github.com/micros-template/file-service/internal/infrastructure/logger"
+	minioStorage "github.com/micros-template/file-service/internal/infrastructure/storage"
 	"go.uber.org/dig"
 )
 

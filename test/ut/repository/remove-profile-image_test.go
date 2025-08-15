@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"10.1.20.130/dropping/file-service/internal/domain/repository"
-	"10.1.20.130/dropping/file-service/test/mocks"
+	"github.com/micros-template/file-service/internal/domain/repository"
+	"github.com/micros-template/file-service/test/mocks"
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"

@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"10.1.20.130/dropping/file-service/test/helper"
-	"10.1.20.130/dropping/proto-file/pkg/fpb"
-	_helper "10.1.20.130/dropping/sharedlib/test/helper"
+	"github.com/micros-template/file-service/test/helper"
+	"github.com/micros-template/proto-file/pkg/fpb"
+	_helper "github.com/micros-template/sharedlib/test/helper"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/suite"
 	"github.com/testcontainers/testcontainers-go"

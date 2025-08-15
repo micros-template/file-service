@@ -5,9 +5,9 @@ import (
 	"errors"
 	"testing"
 
-	"10.1.20.130/dropping/file-service/internal/domain/service"
-	"10.1.20.130/dropping/file-service/pkg/constant"
-	"10.1.20.130/dropping/file-service/test/mocks"
+	"github.com/micros-template/file-service/internal/domain/service"
+	"github.com/micros-template/file-service/pkg/constant"
+	"github.com/micros-template/file-service/test/mocks"
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"

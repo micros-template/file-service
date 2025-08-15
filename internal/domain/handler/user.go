@@ -3,8 +3,8 @@ package handler
 import (
 	"context"
 
-	"10.1.20.130/dropping/file-service/internal/domain/service"
-	"10.1.20.130/dropping/proto-file/pkg/fpb"
+	"github.com/micros-template/file-service/internal/domain/service"
+	"github.com/micros-template/proto-file/pkg/fpb"
 	"google.golang.org/grpc"
 )
 

@@ -1,19 +1,19 @@
-module 10.1.20.130/dropping/file-service
+module github.com/micros-template/file-service
 
 go 1.24.2
 
 require (
-	10.1.20.130/dropping/log-management v0.0.0-20250808075433-1d4dd15b3fc7
-	10.1.20.130/dropping/proto-file v0.0.0-20250714044208-bb76fb12882b
-	10.1.20.130/dropping/sharedlib v0.0.0-20250805050028-236deaaadc24
 	github.com/google/uuid v1.6.0
+	github.com/micros-template/log-service v0.0.0-20250815060440-0eeadb0e7915
+	github.com/micros-template/proto-file v0.0.0-20250815041853-9a4524661ec0
+	github.com/micros-template/sharedlib v0.0.0-20250815061634-c3c69004cabb
 	github.com/minio/minio-go/v7 v7.0.95
 	github.com/nats-io/nats.go v1.44.0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
-	github.com/testcontainers/testcontainers-go v0.37.0
+	github.com/testcontainers/testcontainers-go v0.38.0
 	go.uber.org/dig v1.19.0
 	google.golang.org/grpc v1.74.2
 )
@@ -30,8 +30,8 @@ require (
 	github.com/cpuguy83/dockercfg v0.3.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/distribution/reference v0.6.0 // indirect
-	github.com/docker/docker v28.3.2+incompatible // indirect
-	github.com/docker/go-connections v0.5.0 // indirect
+	github.com/docker/docker v28.3.3+incompatible // indirect
+	github.com/docker/go-connections v0.6.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/ebitengine/purego v0.8.4 // indirect
@@ -71,7 +71,7 @@ require (
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/sagikazarmark/locafero v0.10.0 // indirect
-	github.com/shirou/gopsutil/v4 v4.25.6 // indirect
+	github.com/shirou/gopsutil/v4 v4.25.7 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sourcegraph/conc v0.3.1-0.20240121214520-5f936abd7ae8 // indirect
 	github.com/spf13/afero v1.14.0 // indirect

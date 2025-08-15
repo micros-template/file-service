@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"10.1.20.130/dropping/file-service/cmd/bootstrap"
-	"10.1.20.130/dropping/file-service/cmd/server"
+	"github.com/micros-template/file-service/cmd/bootstrap"
+	"github.com/micros-template/file-service/cmd/server"
 	"github.com/spf13/viper"
 )
 

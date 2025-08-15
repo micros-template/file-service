@@ -5,9 +5,9 @@ import (
 	"errors"
 	"testing"
 
-	"10.1.20.130/dropping/file-service/internal/domain/handler"
-	"10.1.20.130/dropping/file-service/test/mocks"
-	"10.1.20.130/dropping/proto-file/pkg/fpb"
+	"github.com/micros-template/file-service/internal/domain/handler"
+	"github.com/micros-template/file-service/test/mocks"
+	"github.com/micros-template/proto-file/pkg/fpb"
 	"github.com/stretchr/testify/suite"
 	"google.golang.org/grpc"
 )

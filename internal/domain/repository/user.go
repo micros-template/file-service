@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io"
 
-	"10.1.20.130/dropping/file-service/internal/domain/dto"
-	"10.1.20.130/dropping/file-service/internal/infrastructure/logger"
-	"10.1.20.130/dropping/file-service/internal/infrastructure/storage"
+	"github.com/micros-template/file-service/internal/domain/dto"
+	"github.com/micros-template/file-service/internal/infrastructure/logger"
+	"github.com/micros-template/file-service/internal/infrastructure/storage"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
