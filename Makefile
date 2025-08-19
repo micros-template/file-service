@@ -47,7 +47,7 @@ pre-commit:
 	@echo "[SUCCESS] Pre-commit checks passed!"
 # 	remove docker images for the service cause latest is not updating automatically. force to always pulling
 	@echo "Removing services image"
-	@if docker images 10.1.20.130:5001/dropping/file-service:test | awk 'NR>1 {print $1}' | grep -q .; then docker rmi 10.1.20.130:5001/dropping/file-service:test; fi
+	@if docker images docker-registry.anandadf.my.id/micros-template/file_service:test | awk 'NR>1 {print $1}' | grep -q .; then docker rmi docker-registry.anandadf.my.id/micros-template/file_service:test; fi
 
 pre-commit-preparation:
 	@cp ./bin/pre-commit ./.git/hooks/pre-commit
