@@ -1,11 +1,3 @@
-database:
-  host: "localhost"
-  user: "daffaputra"
-  password: "password"
-  port: "5432"
-  name: "dropboks"
-  sslmode: "disable"
-
 minio:
   host: "localhost"
   port: 9000
